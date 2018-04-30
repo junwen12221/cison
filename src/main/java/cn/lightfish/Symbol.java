@@ -63,4 +63,8 @@ public class Symbol {
     public String getName() {
         return name;
     }
+
+    public List<Production> getIn() {
+        return in;
+    }
 }

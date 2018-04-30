@@ -63,9 +63,6 @@ public class LR1Item {
         }
         List<Symbol> betaA = new ArrayList<>(production.getRights().subList(dot + 1, production.getRights().size()));
         Set<Symbol> firstBetaA = yaccFile.first(betaA);
-        if (firstBetaA == null) {
-            System.out.println("=<");
-        }
         firstBetaA.addAll(predicts);
         List<LR1Item> itemsToBeAdded = new ArrayList<>();
         for (Production production : production.getRights().get(dot).getProductions()) {

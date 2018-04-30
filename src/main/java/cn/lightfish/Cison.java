@@ -1,24 +1,28 @@
 package cn.lightfish;
 
 import cn.lightfish.codeGenerator.CodeGenerator;
+import cn.lightfish.ll1.AL;
 import cn.lightfish.lr.LRParsingTable;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Cison {
     public static void main(String[] args) throws IOException {
-        String arg = "D:\\git\\cison\\src\\main\\resources\\ANSI_C_backup.yacc";
+        String arg = "D:\\git\\cison\\src\\main\\resources\\ANSI_C.yacc";
         Context context = parse(arg);
+        AL.removeLeftRecursion(context);
+        AL.eliminateDirectLeftRecursion(context);
+        AL.noOrIsTerminatingSymbol(context);
         context.findFirstFollowSet();
 //        print(context.toString());
         Production root = context.addRealStartSymbol();
+
+
         context.whereIsTerminalSymbol("MODA");
         context.whereIsNonTerminalSymbol("statement_list");
         LRParsingTable lrpt = LRParsingTable.build(context);

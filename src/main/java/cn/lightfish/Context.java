@@ -54,6 +54,20 @@ public class Context {
             }
             this.productions.add(rule);
         }
+    }
+
+    public void addRule(Symbol left, Production rules) {
+        ArrayList<Production> productions = new ArrayList<>();
+        productions.add(rules);
+        addRule(left, productions);
+    }
+
+    public void removeRule(Production rule) {
+        this.productionsMap.get(rule.getLeft()).remove(rule);
+        this.productions.remove(rule);
+        for (Symbol symbol : this.symbols) {
+            symbol.in.remove(rule);
+        }
 
     }
 
@@ -94,7 +108,11 @@ public class Context {
                     boolean allCanNull = false;
                     for (int i = 0; i < production.rights.size(); i++) {
                         Symbol Yi = production.rights.get(i);
-                        changed = changed || first.get(x).addAll(first.get(Yi));
+                        try {
+                            changed = changed || first.get(x).addAll(first.get(Yi));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                         if (Yi.canDeduceToNull()) {
                             first.get(x).remove(Symbol.Null);
                         } else {
